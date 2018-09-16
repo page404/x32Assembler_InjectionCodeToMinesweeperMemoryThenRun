@@ -39,6 +39,9 @@ includelib C:\RadASM\masm32\lib\user32.lib
 INJECTCODE_BEGIN:  ;---------------要注入到扫雷内存中代码的开始位置
 g_szInjectText db 'Hello world!', 0
 g_szInjectTitle db 'Inject', 0
+;--该位置的变量是在 .code 代码段,但是不在 proc 函数范围内,所以是不能修改值的
+;如果要修改值,必须修改它们所在内存的属性为 可读可写可执行 才可以.
+;VirtualProtect 在这里做了这件事情,将要写入目标内存中的代码属性改成了 可读可写可执行 也包含了这里定义的变量.
 g_lpMsgBox dd 0
 g_lpSleep dd 0
 
